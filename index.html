@@ -1,90 +1,128 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="mr">
-<head>
-  <meta charset="utf-8" />
-  <title>Loan Table with Calculations</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f7f7f7; }
-    table { border-collapse: collapse; width: 100%; background: #fff; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    th { background: #333; color: white; }
-    .highlight { background: #fffbcc; } /* monthly interest highlight */
-    .total-row { font-weight: bold; background: #e9f5ff; }
-    .header-cards { display:flex; gap:12px; margin-bottom:12px; }
-    .card { padding:10px 14px; border-radius:6px; background:#ffeb99; font-weight:bold; }
-    .right { text-align:right; }
-  </style>
-</head>
-<body>
-  <h2>Loan summary  calculations</h2>
-  <div class="header-cards">
-    <div class="card" id="totalPrincipalCard">Total Principal Loaned: ₹0</div>
-    <div class="card" id="totalOutstandingCard">Total Outstanding: ₹0</div>
-  </div>
+  <head>
+    <meta charset="utf-8" />
+    <title>Loan Table with Calculations</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-  <table id="loanTable">
-    <thead>
-      <tr>
-        <th>Borrower</th>
-        <th>Disbursement Date</th>
-        <th class="right">Principal Amount (₹)</th>
-        <th class="right">Rate (%)</th>
-        <th class="right">Outstanding Principal (₹)</th>
-        <th>Status</th>
-        <th class="right">Monthly Interest (₹)</th>
-        <th class="right">Yearly Interest (₹)</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-    <tfoot>
-      <tr class="total-row">
-        <td colspan="2">Totals</td>
-        <td id="sumPrincipal" class="right">₹0</td>
-        <td></td>
-        <td id="sumOutstanding" class="right">₹0</td>
-        <td></td>
-        <td id="sumMonthly" class="right">₹0</td>
-        <td id="sumYearly" class="right">₹0</td>
-      </tr>
-    </tfoot>
-  </table>
+  <body>
+    <h2>Loan summary calculations</h2>
+    <div class="header-cards">
+      <div class="card" id="totalPrincipalCard">Total Principal Loaned: ₹0</div>
+      <div class="card" id="totalOutstandingCard">Total Outstanding: ₹0</div>
+    </div>
 
-  <script>
-    
-    const loans = [
-      { borrower: "Jyoti Raut", disbursement: "16-Sept-2024", principal: 6000, ratePercent: 2, outstanding: 4000, status: "Loan Close" },
-      { borrower: "Badal", disbursement: "28-Apr-2025", principal: 40000, ratePercent: 4, outstanding: 20000, status: "Active" },
-      { borrower: "Vivek", disbursement: "23-June-2025", principal: 32000, ratePercent: 4, outstanding: 32000, status: "Active" },
-      { borrower: "Sameer Nimbarte", disbursement: "9-May-2025", principal: 30000, ratePercent: 5, outstanding: 30000, status: "Active" },
-      { borrower: "Sanjana Lad", disbursement: "", principal: 100000, ratePercent: 4, outstanding: 100000, status: "Active" },
-      { borrower: "Tejas Landge", disbursement: "2-June-2025", principal: 50000, ratePercent: 4, outstanding: 50000, status: "loan close" }
-    ];
+    <table id="loanTable">
+      <thead>
+        <tr>
+          <th>Borrower</th>
+          <th>Disbursement Date</th>
+          <th class="right">Principal Amount (₹)</th>
+          <th class="right">Rate (%)</th>
+          <th class="right">Outstanding Principal (₹)</th>
+          <th>Status</th>
+          <th class="right">Monthly Interest (₹)</th>
+          <th class="right">Yearly Interest (₹)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr class="total-row">
+          <td colspan="2">Totals</td>
+          <td id="sumPrincipal" class="right">₹0</td>
+          <td></td>
+          <td id="sumOutstanding" class="right">₹0</td>
+          <td></td>
+          <td id="sumMonthly" class="right">₹0</td>
+          <td id="sumYearly" class="right">₹0</td>
+        </tr>
+      </tfoot>
+    </table>
 
-    // Format currency
-    function formatINR(n) {
-      // rounding to 2 decimals but inputs are integers so fine
-      return "₹" + Number(n).toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 2});
-    }
+    <script>
+      const loans = [
+        {
+          borrower: "Jyoti Raut",
+          disbursement: "16-Sept-2024",
+          principal: 6000,
+          ratePercent: 2,
+          outstanding: 4000,
+          status: "Loan Close",
+        },
+        {
+          borrower: "Badal",
+          disbursement: "28-Apr-2025",
+          principal: 40000,
+          ratePercent: 4,
+          outstanding: 20000,
+          status: "Active",
+        },
+        {
+          borrower: "Vivek",
+          disbursement: "23-June-2025",
+          principal: 32000,
+          ratePercent: 4,
+          outstanding: 32000,
+          status: "Active",
+        },
+        {
+          borrower: "Sameer Nimbarte",
+          disbursement: "9-May-2025",
+          principal: 30000,
+          ratePercent: 5,
+          outstanding: 30000,
+          status: "Active",
+        },
+        {
+          borrower: "Sanjana Lad",
+          disbursement: "",
+          principal: 100000,
+          ratePercent: 4,
+          outstanding: 100000,
+          status: "Active",
+        },
+        {
+          borrower: "Tejas Landge",
+          disbursement: "2-June-2025",
+          principal: 50000,
+          ratePercent: 4,
+          outstanding: 50000,
+          status: "loan close",
+        },
+      ];
 
-    // Compute per-row and totals
-    let totalPrincipal = 0;
-    let totalOutstanding = 0;
-    let totalMonthlyInterest = 0;
-    let totalYearlyInterest = 0;
+      // Format currency
+      function formatINR(n) {
+        // rounding to 2 decimals but inputs are integers so fine
+        return (
+          "₹" +
+          Number(n).toLocaleString("en-IN", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2,
+          })
+        );
+      }
 
-    const tbody = document.querySelector("#loanTable tbody");
-    loans.forEach(row => {
-      // monthly interest as in sheet: monthly = principal * (rate/100)
-      const monthlyInterest = (row.principal * (row.ratePercent / 100));
-      const yearlyInterest = monthlyInterest * 12;
+      // Compute per-row and totals
+      let totalPrincipal = 0;
+      let totalOutstanding = 0;
+      let totalMonthlyInterest = 0;
+      let totalYearlyInterest = 0;
 
-      totalPrincipal += row.principal;
-      totalOutstanding += row.outstanding;
-      totalMonthlyInterest += monthlyInterest;
-      totalYearlyInterest += yearlyInterest;
+      const tbody = document.querySelector("#loanTable tbody");
+      loans.forEach((row) => {
+        // monthly interest as in sheet: monthly = principal * (rate/100)
+        const monthlyInterest = row.principal * (row.ratePercent / 100);
+        const yearlyInterest = monthlyInterest * 12;
 
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
+        totalPrincipal += row.principal;
+        totalOutstanding += row.outstanding;
+        totalMonthlyInterest += monthlyInterest;
+        totalYearlyInterest += yearlyInterest;
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
         <td>${row.borrower}</td>
         <td>${row.disbursement}</td>
         <td class="right">${formatINR(row.principal)}</td>
@@ -94,26 +132,32 @@
         <td class="right highlight">${formatINR(monthlyInterest)}</td>
         <td class="right">${formatINR(yearlyInterest)}</td>
       `;
-      tbody.appendChild(tr);
-    });
+        tbody.appendChild(tr);
+      });
 
-    // Fill totals
-    document.getElementById("sumPrincipal").textContent = formatINR(totalPrincipal);
-    document.getElementById("sumOutstanding").textContent = formatINR(totalOutstanding);
-    document.getElementById("sumMonthly").textContent = formatINR(totalMonthlyInterest);
-    document.getElementById("sumYearly").textContent = formatINR(totalYearlyInterest);
+      // Fill totals
+      document.getElementById("sumPrincipal").textContent =
+        formatINR(totalPrincipal);
+      document.getElementById("sumOutstanding").textContent =
+        formatINR(totalOutstanding);
+      document.getElementById("sumMonthly").textContent =
+        formatINR(totalMonthlyInterest);
+      document.getElementById("sumYearly").textContent =
+        formatINR(totalYearlyInterest);
 
-    // Header cards
-    document.getElementById("totalPrincipalCard").textContent = "Total Principal Loaned: " + formatINR(totalPrincipal);
-    document.getElementById("totalOutstandingCard").textContent = "Total Outstanding: " + formatINR(totalOutstanding);
+      // Header cards
+      document.getElementById("totalPrincipalCard").textContent =
+        "Total Principal Loaned: " + formatINR(totalPrincipal);
+      document.getElementById("totalOutstandingCard").textContent =
+        "Total Outstanding: " + formatINR(totalOutstanding);
 
-    // console log (developer)
-    console.log({
-      totalPrincipal,        // 258000
-      totalOutstanding,      // 236000
-      totalMonthlyInterest,  // sum of row monthly interests
-      totalYearlyInterest    // monthly * 12 sum
-    });
-  </script>
-</body>
+      // console log (developer)
+      console.log({
+        totalPrincipal, // 258000
+        totalOutstanding, // 236000
+        totalMonthlyInterest, // sum of row monthly interests
+        totalYearlyInterest, // monthly * 12 sum
+      });
+    </script>
+  </body>
 </html>

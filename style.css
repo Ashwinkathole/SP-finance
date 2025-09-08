@@ -1,0 +1,41 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: #f7f7f7;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: #fff;
+}
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background: #333;
+  color: white;
+}
+.highlight {
+  background: #fffbcc;
+} /* monthly interest highlight */
+.total-row {
+  font-weight: bold;
+  background: #e9f5ff;
+}
+.header-cards {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.card {
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: #ffeb99;
+  font-weight: bold;
+}
+.right {
+  text-align: right;
+}
