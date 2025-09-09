@@ -1,163 +1,111 @@
 <!DOCTYPE html>
-<html lang="mr">
-  <head>
-    <meta charset="utf-8" />
-    <title>Loan Table with Calculations</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SP Finance Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>SP Finance</h1>
+  <p>Loan Management Dashboard</p>
 
-  <body>
-    <h2>Loan summary calculations</h2>
-    <div class="header-cards">
-      <div class="card" id="totalPrincipalCard">Total Principal Loaned: ₹0</div>
-      <div class="card" id="totalOutstandingCard">Total Outstanding: ₹0</div>
+  <div class="dashboard">
+    <!-- Total Loans -->
+    <div class="card">
+      <div>
+        <p>Total Loans</p>
+        <h2>4</h2>
+      </div>
+      <div class="icon blue">👥</div>
     </div>
 
-    <table id="loanTable">
-      <thead>
-        <tr>
-          <th>Borrower</th>
-          <th>Disbursement Date</th>
-          <th class="right">Principal Amount (₹)</th>
-          <th class="right">Rate (%)</th>
-          <th class="right">Outstanding Principal (₹)</th>
-          <th>Status</th>
-          <th class="right">Monthly Interest (₹)</th>
-          <th class="right">Yearly Interest (₹)</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-      <tfoot>
-        <tr class="total-row">
-          <td colspan="2">Totals</td>
-          <td id="sumPrincipal" class="right">₹0</td>
-          <td></td>
-          <td id="sumOutstanding" class="right">₹0</td>
-          <td></td>
-          <td id="sumMonthly" class="right">₹0</td>
-          <td id="sumYearly" class="right">₹0</td>
-        </tr>
-      </tfoot>
-    </table>
+    <!-- Active Loans -->
+    <div class="card">
+      <div>
+        <p>Active Loans</p>
+        <h2 class="green">3</h2>
+      </div>
+      <div class="icon green">📈</div>
+    </div>
 
-    <script>
-      const loans = [
-        {
-          borrower: "Jyoti Raut",
-          disbursement: "16-Sept-2024",
-          principal: 6000,
-          ratePercent: 2,
-          outstanding: 4000,
-          status: "Loan Close",
-        },
-        {
-          borrower: "Badal",
-          disbursement: "28-Apr-2025",
-          principal: 40000,
-          ratePercent: 4,
-          outstanding: 20000,
-          status: "Active",
-        },
-        {
-          borrower: "Vivek",
-          disbursement: "23-June-2025",
-          principal: 32000,
-          ratePercent: 4,
-          outstanding: 32000,
-          status: "Active",
-        },
-        {
-          borrower: "Sameer Nimbarte",
-          disbursement: "9-May-2025",
-          principal: 30000,
-          ratePercent: 5,
-          outstanding: 30000,
-          status: "Active",
-        },
-        {
-          borrower: "Sanjana Lad",
-          disbursement: "",
-          principal: 100000,
-          ratePercent: 4,
-          outstanding: 100000,
-          status: "Active",
-        },
-        {
-          borrower: "Tejas Landge",
-          disbursement: "2-June-2025",
-          principal: 50000,
-          ratePercent: 4,
-          outstanding: 50000,
-          status: "loan close",
-        },
-      ];
+    <!-- Total Principal -->
+    <div class="card">
+      <div>
+        <p>Total Principal</p>
+        <h2 class="blue">₹9,00,000</h2>
+      </div>
+      <div class="icon blue">💰</div>
+    </div>
 
-      // Format currency
-      function formatINR(n) {
-        // rounding to 2 decimals but inputs are integers so fine
-        return (
-          "₹" +
-          Number(n).toLocaleString("en-IN", {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2,
-          })
-        );
-      }
+    <!-- Monthly Interest -->
+    <div class="card">
+      <div>
+        <p>Monthly Interest</p>
+        <h2 class="green">₹7,933</h2>
+      </div>
+      <div class="icon green">%</div>
+    </div>
+  </div>
 
-      // Compute per-row and totals
-      let totalPrincipal = 0;
-      let totalOutstanding = 0;
-      let totalMonthlyInterest = 0;
-      let totalYearlyInterest = 0;
+  <div class="top-bar">
+    <input type="text" placeholder="Search borrowers..." class="search-box">
 
-      const tbody = document.querySelector("#loanTable tbody");
-      loans.forEach((row) => {
-        // monthly interest as in sheet: monthly = principal * (rate/100)
-        const monthlyInterest = row.principal * (row.ratePercent / 100);
-        const yearlyInterest = monthlyInterest * 12;
+    <div class="filters">
+      <button class="btn active">All</button>
+      <button class="btn">Active</button>
+      <button class="btn">Closed</button>
+    </div>
 
-        totalPrincipal += row.principal;
-        totalOutstanding += row.outstanding;
-        totalMonthlyInterest += monthlyInterest;
-        totalYearlyInterest += yearlyInterest;
+    <div class="actions">
+      <button class="btn blue">📊 Hide Charts</button>
+      <!-- <button class="btn blue">➕ Add Loan</button> -->
+       <button id="openModal" class="btn blue">➕ Add Loan</button>
+    </div>
+  </div>
 
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-        <td>${row.borrower}</td>
-        <td>${row.disbursement}</td>
-        <td class="right">${formatINR(row.principal)}</td>
-        <td class="right">${row.ratePercent}%</td>
-        <td class="right">${formatINR(row.outstanding)}</td>
-        <td>${row.status}</td>
-        <td class="right highlight">${formatINR(monthlyInterest)}</td>
-        <td class="right">${formatINR(yearlyInterest)}</td>
-      `;
-        tbody.appendChild(tr);
-      });
+  <!-- Dashboard Title -->
+  <h2>Analytics Dashboard</h2>
 
-      // Fill totals
-      document.getElementById("sumPrincipal").textContent =
-        formatINR(totalPrincipal);
-      document.getElementById("sumOutstanding").textContent =
-        formatINR(totalOutstanding);
-      document.getElementById("sumMonthly").textContent =
-        formatINR(totalMonthlyInterest);
-      document.getElementById("sumYearly").textContent =
-        formatINR(totalYearlyInterest);
+  <!-- Chart Card -->
+  <div class="chart-card">
+    <h3>Loan Status Distribution</h3>
+    <div class="donut-chart">
+      <div class="circle"></div>
+      <div class="legend">
+        <p class="blue">Active: 3</p>
+        <p class="green">Closed: 1</p>
+      </div>
+    </div>
+  </div>
 
-      // Header cards
-      document.getElementById("totalPrincipalCard").textContent =
-        "Total Principal Loaned: " + formatINR(totalPrincipal);
-      document.getElementById("totalOutstandingCard").textContent =
-        "Total Outstanding: " + formatINR(totalOutstanding);
+   <!-- Main Page -->
+  <!-- <button id="openModal" class="btn blue">➕ Add Loan</button> -->
 
-      // console log (developer)
-      console.log({
-        totalPrincipal, // 258000
-        totalOutstanding, // 236000
-        totalMonthlyInterest, // sum of row monthly interests
-        totalYearlyInterest, // monthly * 12 sum
-      });
-    </script>
-  </body>
+   
+  <div id="loanModal" class="modal">
+    <div class="modal-content">
+      <h2>➕ Add New Loan</h2>
+
+      <label>Borrower Name</label>
+      <input type="text" placeholder="Enter borrower name">
+
+      <label>Disbursement Date</label>
+      <input type="date">
+
+      <label>Principal Amount (₹)</label>
+      <input type="number" value="0">
+
+      <label>Rate of Interest (%)</label>
+      <input type="number" value="12">
+
+      <div class="actions">
+        <button id="closeModal" class="btn cancel">Cancel</button>
+        <button class="btn blue">Add Loan</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
